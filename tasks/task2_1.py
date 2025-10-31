@@ -65,12 +65,11 @@ Titanic_dataset.csv - Icedrive"""
     labels = ['Child', 'Teen', 'Adult', 'Senior']
 
     print("Категоризация возраста")
-    titanic_data['age_group'] = pandas.cut(titanic_data['age'], bins=bins, labels=labels, right=False)
+    titanic_data['Age_Category'] = pandas.cut(titanic_data['age'], bins=bins, labels=labels, right=False)
 
     print("\nРаспределение возрастных групп:")
-    print(titanic_data['age_group'].value_counts(dropna=False))  # Включая NaN для ages
+    print(titanic_data['Age_Category'].value_counts(dropna=False))  # Включая NaN для ages
 
-    # --- Шаг 2: Идентификация и удаление бесполезных столбцов ---
 
     # Список столбцов, которые мы считаем бесполезными для предсказания 'age_group'
     # (включая 'age', который использовался для создания 'age_group')
@@ -91,8 +90,23 @@ Titanic_dataset.csv - Icedrive"""
     print("\nСтолбцы после удаления:")
     print(titanic_processed_data.columns.tolist())
 
-    print("\nПервые 5 строк обработанного датасета:")
+    print("\nПервые 5 строк датасета:")
     print(titanic_processed_data.head())
 
-    print("\nИнформация о изменённом датасете:")
+    print("\nИнформация об изменённом датасете:")
+    titanic_processed_data.info()
+
+    # Заполнение пропущенных значений в 'Age' средним возрастом
+    titanic_processed = titanic_data.drop(columns=columns_to_drop)
+    mean_age = titanic_processed['Age'].mean()
+    titanic_processed['Age'].fillna(mean_age, inplace=True)
+    print(f"\nПропущенные значения в 'Age' заполнены средним значением: {mean_age:.2f}")
+
+    print("\nСтолбцы после замены:")
+    print(titanic_processed_data.columns.tolist())
+
+    print("\nПервые 5 строк датасета:")
+    print(titanic_processed_data.head())
+
+    print("\nИнформация об изменённом датасете:")
     titanic_processed_data.info()
