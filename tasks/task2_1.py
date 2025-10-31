@@ -38,4 +38,28 @@ Gradio: https://www.gradio.app/
 
 https://icedrive.net/s/6YBzzgF2B1fCBNx59vVR5kX41PZP
 Titanic_dataset.csv - Icedrive"""
-    print("Что это за библиотеки")
+    import pandas
+    import numpy
+    import sklearn
+    import matplotlib
+
+    import seaborn
+
+    # 1. Загрузка датасета "Titanic" из seaborn
+    titanic_data = seaborn.load_dataset('titanic')
+
+    # 2. Вывод первых нескольких строк датасета для проверки
+    print("Первые 5 строк датасета Titanic:")
+    print(titanic_data.head())
+
+    # 3. Вывод основной информации о датасете (количество строк, столбцы, типы данных, пропуски)
+    print("\nОсновная информация о датасете:")
+    titanic_data.info()
+
+    # 4. Вывод описательной статистики для числовых столбцов
+    print("\nОписательная статистика:")
+    print(titanic_data.describe())
+
+    # 5. Вывод описательной статистики для категориальных столбцов
+    print("\nОписательная статистика для категориальных столбцов:")
+    print(titanic_data.describe(include=['object', 'category']))
