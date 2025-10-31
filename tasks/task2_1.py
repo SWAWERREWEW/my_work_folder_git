@@ -45,21 +45,54 @@ Titanic_dataset.csv - Icedrive"""
 
     import seaborn
 
-    # 1. Загрузка датасета "Titanic" из seaborn
+    print("Загрузка датасета Titanic из seaborn")
     titanic_data = seaborn.load_dataset('titanic')
 
-    # 2. Вывод первых нескольких строк датасета для проверки
     print("Первые 5 строк датасета Titanic:")
     print(titanic_data.head())
 
-    # 3. Вывод основной информации о датасете (количество строк, столбцы, типы данных, пропуски)
     print("\nОсновная информация о датасете:")
     titanic_data.info()
 
-    # 4. Вывод описательной статистики для числовых столбцов
-    print("\nОписательная статистика:")
+    print("\nОписательная статистика для числовых столбцов:")
     print(titanic_data.describe())
 
-    # 5. Вывод описательной статистики для категориальных столбцов
     print("\nОписательная статистика для категориальных столбцов:")
     print(titanic_data.describe(include=['object', 'category']))
+
+    print("Определим границы для возрастных групп")
+    bins = [0, 12, 18, 60, numpy.inf]  # 0-11: Child, 12-17: Teen, 18-59: Adult, 60+: Senior
+    labels = ['Child', 'Teen', 'Adult', 'Senior']
+
+    print("Категоризация возраста")
+    titanic_data['age_group'] = pandas.cut(titanic_data['age'], bins=bins, labels=labels, right=False)
+
+    print("\nРаспределение возрастных групп:")
+    print(titanic_data['age_group'].value_counts(dropna=False))  # Включая NaN для ages
+
+    # --- Шаг 2: Идентификация и удаление бесполезных столбцов ---
+
+    # Список столбцов, которые мы считаем бесполезными для предсказания 'age_group'
+    # (включая 'age', который использовался для создания 'age_group')
+    columns_to_drop = [
+        'age',
+        'survived',
+        'alive',
+        'sex',
+        'adult_male',
+        'class',
+        'embark_town',
+        'deck'
+    ]
+    print("Бесполезные столбцы для предсказания", columns_to_drop)
+
+    titanic_processed_data = titanic_data.drop(columns=columns_to_drop)
+
+    print("\nСтолбцы после удаления:")
+    print(titanic_processed_data.columns.tolist())
+
+    print("\nПервые 5 строк обработанного датасета:")
+    print(titanic_processed_data.head())
+
+    print("\nИнформация о изменённом датасете:")
+    titanic_processed_data.info()
