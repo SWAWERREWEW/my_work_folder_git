@@ -1,2 +1,10 @@
 # my_work_folder_git
 my work folder git for working work"
+
+В терминале нужно перейти в папку с файлом prayer_genshin_pygame.py с помощью команды cd
+например
+# cd pampening_folder/prayer_genshin_pygame
+Потом написать команду для установки виртуального окружения
+# .\ins.bat
+Подождать и потом написать команду для запуска программы
+# .\act.bat
