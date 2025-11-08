@@ -1,5 +1,51 @@
 from random import shuffle
-import some_file
+# import some_file
+
+
+class Console:
+    @staticmethod
+    def log(*s, sep=None, end=None):
+        if sep is None and end is None: print(*s)
+        elif sep is None: print(*s, end=end)
+        elif end is None: print(*s, sep=sep)
+        else: print(*s, sep=sep, end=end)
+
+    WHITE = '\033[97m'
+    PURPLE = '\033[95m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+    lil_colors = [['blue', BLUE], ['cyan', CYAN], ['green', GREEN], ['yellow', YELLOW], ['red', RED], ['white', WHITE],
+    ['purple', PURPLE]]
+
+    @staticmethod
+    def warn(s, color=None, bold=None, underline=None, end=None) -> None:
+
+        if color is None:
+            color = Console.lil_colors[3][1]
+        else:
+            for ic in range(len(Console.lil_colors)):
+                if Console.lil_colors[ic][0] == color:
+                    color = Console.lil_colors[ic][1]
+
+        if bold: bold = Console.BOLD
+        else: bold = ''
+
+        if underline: underline = Console.UNDERLINE
+        else: underline = ''
+
+        if end is None: end = '\n'
+
+        print(bold + underline + color + str(s) + Console.ENDC, end=end)
+
+
+console = Console()
 
 
 def main():
@@ -915,33 +961,6 @@ t = list(range(*d))
         right = [x for x in s if x > pivot]
         return quick_sort(left) + middle + quick_sort(right)
 
-
-    class Console:
-        @staticmethod
-        def log(*s, sep=None, end=None):
-            if sep is None and end is None:
-                print(*s)
-            elif sep is None:
-                print(*s, end=end)
-            elif end is None:
-                print(*s, sep=sep)
-            else:
-                print(*s, sep=sep, end=end)
-
-        class Bcolors:
-            HEADER = '\033[95m'
-            OKBLUE = ('\033[94m', 'blue')
-            OKCYAN = ('\033[96m', 'cyan')
-            OKGREEN = ('\033[92m', 'green')
-            WARNING = ('\033[93m', 'yellow')
-            FAIL = ('\033[91m', 'red')
-            ENDC = '\033[0m'
-            BOLD = '\033[1m'
-            UNDERLINE = '\033[4m'
-
-        @staticmethod
-        def warn(s): print(Console.Bcolors.WARNING[0] + s + Console.Bcolors.ENDC)
-
     class NotHashTable:
         def __init__(self, keys=None, values=None):
             if keys is None: keys = []
@@ -1050,8 +1069,40 @@ t = list(range(*d))
     console.warn(str(nothashtable))
     print(all([[], [], True]))
 
-if __name__ == "__main__":
-    main()
+
+def main():
+    global console
+    console.warn("""Операции над множествами
+set.difference() # Хня полная
+set.symmetric_difference()
+set.union()
+set.intersection()
+&
+|
+^
+-""", 'green', bold=True)
+    la = {1, 2, 3}
+    lb = {2, 3, 4}
+    Console.warn('Попробовать поиграться с этими множествами', 'cyan')
+    console.warn('la = ', 'cyan', bold=True, end='')
+    console.warn(la, 'cyan', bold=True)
+    console.warn('lb = ', 'cyan', bold=True, end='')
+    console.warn(lb, 'cyan', bold=True)
+    console.warn('''Единственные полезные это
+set.symmetric_difference(la, lb)''')
+    console.warn(set.symmetric_difference(la, lb), bold=True)
+    console.warn('''set.union(la, lb)''')
+    console.warn(set.union(la, lb), bold=True)
+    console.warn('''и set.intersection(la, lb)''')
+    console.warn(set.intersection(la, lb), bold=True)
+    console.warn('Всё остальное я не понимаю зачем.')
+
+
+    console.warn('■'*220, 'green')
+
+
+
+if __name__ == "__main__": main()
 
 # import sqlite3 as sq
 # with sq.connect("saper.db") as con:
