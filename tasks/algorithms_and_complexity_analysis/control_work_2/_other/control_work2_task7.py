@@ -3,6 +3,17 @@
 Дисциплина: Алгоритмы и анализ сложности
 Работа: Контрольная или домашняя работа 2
 Варианты: 3, 6, 7, 11, 13, 18, 21, 22, 26, 28"""
+import time
+
+
+def time_of_function(func):
+    def wrapper():
+        start_time = time.time()
+        result = func()
+        execution_time = round(time.time() - start_time, 3)
+        print(f' {execution_time}')
+        return result
+    return wrapper
 
 
 def custom_summ(l):
@@ -10,7 +21,7 @@ def custom_summ(l):
     for el in l: summ += el
     return summ
 
-
+@time_of_function
 def task7():
     """Задача 7. Запросы сумм Ограничение по времени: 2 секунды Ограничение по памяти: 64 мегабайта В первой строке
 файла содержатся два числа: количество элементов в массиве V: 10 ≤ N ≤ 500000 и количество запросов 1 ≤ M ≤ 500000.
@@ -50,6 +61,17 @@ def task7():
     answer = ''
     n, m = 10, 8
     massif = [1, 7, 15, 8, 9, 15, 15, 19, 5, 19]
+    massif = """1
+7
+15
+8
+9
+15
+15
+19
+5
+19""".split('\n')
+    massif = list(map(int, massif))
     requests = [
         [1, 1, 8],
         [1, 6, 8],
@@ -60,6 +82,17 @@ def task7():
         [1, 4, 7],
         [1, 3, 6]
     ]
+    requests = """1 1 8
+1 6 8
+1 0 6
+2 6 6
+2 1 6
+2 0 9
+1 4 7
+1 3 6""".split('\n')
+    requests = [list(map(int, x.split())) for x in requests]
+    print(requests)
+
 
     for v in requests:
         if v[0] == 1:
@@ -73,7 +106,7 @@ def task7():
             new_value = v[2]
             massif[num] = new_value
 
-    print(answer, end='')
+    print(answer)
 
 
 if __name__ == '__main__': task7()
