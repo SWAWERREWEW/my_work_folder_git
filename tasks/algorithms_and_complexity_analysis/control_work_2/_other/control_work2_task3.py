@@ -4,6 +4,22 @@
 Работа: Контрольная или домашняя работа 2
 Варианты: 3, 6, 7, 11, 13, 18, 21, 22, 26, 28"""
 
+import time
+
+
+# Декоратор объявляется до декорируемой функции.
+def time_of_function(func):
+    # В декораторе есть вложенная функция.
+    def wrapper():
+        start_time = time.time()
+        result = func()
+        execution_time = round(time.time() - start_time, 3)
+        print(f'Время выполнения: {execution_time} сек.')
+        return result
+    # Декоратор возвращает вызываемый объект (callable object),
+    # в нашем случае - функцию.
+    return wrapper
+
 def quick_sort(arr):
     if len(arr) <= 1:
         return arr
@@ -12,6 +28,7 @@ def quick_sort(arr):
     middle = [x for x in arr if x == pivot]
     right = [x for x in arr if x > pivot]
     return quick_sort(left) + middle + quick_sort(right)
+
 
 
 def intersect_sorted_lists(list1, list2):
@@ -30,7 +47,7 @@ def intersect_sorted_lists(list1, list2):
 
     return common_elements
 
-
+@time_of_function
 def task3():
     """Задача 3. Пересечение множеств
 Ограничение по времени: 2 секунды
@@ -66,13 +83,25 @@ A_N[1] A_N[2] … A_N[M]
 -1 8 4 9 0
 Стандартный вывод
 3 общих элемента, а именно -2 -1 и 8"""
-    n_and_m = list(map(int, input().split()))
-    n, m = n_and_m[0], n_and_m[1]
+    # # input data
+    # n_and_m = list(map(int, input().split()))
+    # n, m = n_and_m[0], n_and_m[1]
+    #
+    # sorted_sets = []
+    # for _ in range(n):
+    #     unsorted_values = list(map(int, input().split()))
+    #     sorted_values = quick_sort(unsorted_values)
+    #     sorted_sets.append(sorted_values)
+
+    n, m = 3, 4
+
+    string_data = """9 7 1 8
+5 7 6 3
+5 9 8 6"""
 
     sorted_sets = []
-    for _ in range(n):
-        unsorted_values = list(map(int, input().split()))
-        sorted_values = quick_sort(unsorted_values)
+    for l in string_data.split('\n'):
+        sorted_values = quick_sort(list(map(int, l.split())))
         sorted_sets.append(sorted_values)
 
     max_count = 0
