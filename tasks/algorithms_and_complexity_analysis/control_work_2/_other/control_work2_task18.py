@@ -6,6 +6,7 @@ def time_of_function(function_for_check):
         start_time = time()
         result = function_for_check()
         end_time = round(time() - start_time, 6)
+        print(f"Время выполнения {end_time} секунд")
         return result
     return wrapper
 

@@ -1,3 +1,17 @@
+from time import time
+
+
+def time_of_function(funcion_for_check):
+    def wrapper():
+        start_time = time()
+        result = funcion_for_check()
+        end_time = round(time() - start_time, 6)
+        print(f"Время выполнения {end_time} секунд")
+        return result
+    return wrapper
+
+
+@time_of_function
 def task26():
     """
 Задача 26. Палиндром. Он же палиндром.
@@ -32,23 +46,20 @@ AbabaAab
 AbabaAababA
     """
 
-    def is_palindrome(s):
-        return s == s[::-1]
-
-    def find_minimum_right_half_to_make_palindrome(s):
-        n = len(s)
-        for i in range(n):
-            right_half = s[i:]
-
-            result = s + right_half[::-1]
-
-            if is_palindrome(result):
-                return result
-        return None
-
     s1 = input()
 
-    answer = find_minimum_right_half_to_make_palindrome(s1)
+    answer = 'not polindrom'
+    n = len(s1)
+
+    for i in range(n):
+        right_half = s1[i:]
+
+        result = s1 + right_half[::-1]
+
+        if s1 == s1[::-1]:
+            answer = result
+            break
+
     print(answer)
 
 if __name__ == '__main__': task26()

@@ -1,3 +1,17 @@
+from time import time
+
+
+def time_of_function(funcion_for_check):
+    def wrapper():
+        start_time = time()
+        result = funcion_for_check()
+        end_time = round(time() - start_time, 6)
+        print(f"Время выполнения {end_time} секунд")
+        return result
+    return wrapper
+
+
+@time_of_function
 def task22():
     """
 Задача 22. Packed Prefix
@@ -59,57 +73,44 @@ aba
         i = 0
         while i < len(s):
             if custom_isdigit(s[i]):
-                # Обрабатываем цифру перед скобками
                 count = int(s[i])
                 i += 1
 
-                # Определяем начало и конец вложенной строки внутри квадратных скобок
                 start = i + 1
                 end = s.find(']', start)
                 inner_string = s[start:end]
 
-                # Рекурсивно распаковываем внутреннюю строку и добавляем столько раз, сколько требует цифра
                 for _ in range(count):
                     result.append(unpack(inner_string))
 
                 i = end + 1
             else:
-                # Просто добавляем символ, если это буква
                 result.append(s[i])
                 i += 1
 
         return ''.join(result)
 
-    # Функция для нахождения наибольшего общего префикса
     def longest_prefix(strings):
-        if not strings:
-            return ""
+        if not strings: return ""
 
-        # Берём первую строку как начальное значение
         prefix = list(strings[0])
         for string in strings[1:]:
-            # Ограничиваем длину проверяемого префикса
+
             min_len = minimum(length(prefix), length(string))
+
             for j in range(min_len):
-                # Остановимся, как только символы перестали совпадать
-                if prefix[j] != string[j]:
-                    break
-            else:
-                # Если цикл завершился нормально, увеличим индекс на единицу
-                j += 1
-            # Урезаем префикс до последнего совпадающего символа
+                if prefix[j] != string[j]: break
+            else: j += 1
+
             prefix = prefix[:j]
 
         return ''.join(prefix)
 
-    # Чтение вводимых данных
     n = int(input())
     packed_strings = [input() for _ in range(n)]
 
-    # Распаковка всех строк
     unpacked_strings = [unpack(ps) for ps in packed_strings]
 
-    # Поиск наибольшего общего префикса
     common_prefix = longest_prefix(unpacked_strings)
     print(common_prefix)
 

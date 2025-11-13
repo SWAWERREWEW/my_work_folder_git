@@ -1,5 +1,17 @@
+from time import time
 
 
+def time_of_function(funcion_for_check):
+    def wrapper():
+        start_time = time()
+        result = funcion_for_check()
+        end_time = round(time() - start_time, 6)
+        print(f"Время выполнения {end_time} секунд")
+        return result
+    return wrapper
+
+
+@time_of_function
 def task21():
     """
 Задача 21. Привидение Ваня
@@ -21,32 +33,33 @@ def task21():
 Выведите в выходной файл все такие K, что у Вани может быть K плиток в порядке
 убывания.
     """
+    def quick_sort(l):
+        if len(l) == 1: return l
+        pivot = l[0]
+        left = [x for x in l if x < pivot]
+        middle = [x for x in l if x == pivot]
+        right = [x for x in l if x > pivot]
+        return quick_sort(left) + quick_sort(middle) + quick_sort(right)
+
 
     def find_possible_tiles(n, m, colors):
-        def is_symmetric(left_part, right_part):
-            return left_part == list(reversed(right_part))
-
-        # Возможные значения К
         possible_ks = []
 
         for k in range((n + 1) // 2, n + 1):
-            if len(colors[:k]) != len(colors[n - k:n]):
-                continue
-
-            # Проверяем, совпадает ли первая половина с перевёрнутой последней половиной
-            if is_symmetric(colors[:k], colors[n - k:n]):
+            if colors[:k] == list(reversed(colors[n - k:n])):
                 possible_ks.append(k)
 
-        # Сортируем найденные K по убыванию
-        possible_ks.sort(reverse=True)
+        possible_ks = quick_sort(possible_ks)[::-1]
         return possible_ks
 
-    # Чтение ввода
-    input_data = input().strip()
-    n, m = map(int, input_data.split())
-    colors = list(map(int, input()))
+    with open("input21.txt", "r") as f:
+        content = f.read().split("\n")
+        n, m = int(content[0][0]), int(content[0][1])
+        colors = list(map(int, content[1]))
 
-    result = find_possible_tiles(n, m, colors)
-    print(" ".join(map(str, result)))
+        result = find_possible_tiles(n, m, colors)
+        answer = " ".join(map(str, result))
+    with open("input21.txt", "w") as f:
+        f.write(answer)
 
 if __name__ == '__main__': task21()

@@ -1,3 +1,17 @@
+from time import time
+
+
+def time_of_function(funcion_for_check):
+    def wrapper():
+        start_time = time()
+        result = funcion_for_check()
+        end_time = round(time() - start_time, 6)
+        print(f"Время выполнения {end_time} секунд")
+        return result
+    return wrapper
+
+
+@time_of_function
 def task28():
     n = 11
     s = "abracadabra"
@@ -15,8 +29,6 @@ def task28():
     print("".join(lil_t))
     answer = n - count_cycle
     print(answer)
-
-
 
 
 if __name__ == '__main__': task28()
