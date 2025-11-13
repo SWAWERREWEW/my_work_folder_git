@@ -1,3 +1,15 @@
+from time import time
+
+def time_of_function(function_for_check):
+    def wrapper():
+        start_time = time()
+        result = function_for_check()
+        end_time = round(time() - start_time, 6)
+        print(f"Время выполнения {end_time} секунд")
+        return end_time
+    return wrapper
+
+@time_of_function
 def task13():
     """Задача 13. Большая книжка
 Ограничение по времени: 5 секунды Ограничение по памяти: 4 мегабайта.
@@ -63,6 +75,7 @@ ZDH IOX
 ERROR
     """
     class Dictionary:
+        answer = ""
         def __init__(self, keys, values):
             self.__keys = keys
             self.__values = values
@@ -76,16 +89,16 @@ ERROR
             has_key = False
             for i in range(Dictionary.get_size(self)):
                 if key == self.__keys[i]:
-                    print(self.__keys[i], self.__values[i])
+                    Dictionary.answer += "".join(self.__keys[i]) + " " + "".join(self.__values[i]) + "\n"
                     has_key = True
-            if not has_key: print("ERROR")
+            if not has_key: Dictionary.answer += "ERROR\n"
 
         def add_key_value(self, key, value):
             has_key = False
             for i in range(Dictionary.get_size(self)):
                 if key == self.__keys[i]:
                     has_key = True
-                    print("ERROR")
+                    Dictionary.answer += "ERROR\n"
                     break
             if not has_key:
                 self.__keys.append(key)
@@ -99,7 +112,7 @@ ERROR
                     self.__values.pop(i)
                     has_key = True
                     break
-            if not has_key: print("ERROR")
+            if not has_key: Dictionary.answer += "ERROR\n"
 
         def update_key_value(self, key, value):
             has_key = False
@@ -109,42 +122,24 @@ ERROR
                     self.__values[i] = value
                     has_key = True
                     break
-            if not has_key: print("ERROR")
+            if not has_key: Dictionary.answer += "ERROR\n"
 
+    with open("input13.txt", "r") as f:
+        s = f.read()
+        lil = s.split("\n")
+        lil = [x.split() for x in lil if x != ""]
+        print(lil)
 
-    # n = int(input("n="))
-    # lil = []
-    # for i in range(n):
-    #     line = input("command:")
-    #     lil.append(line.split())
-    # print(lil)
+        data = Dictionary([], [])
+        for command in lil:
+            if command[0] == "ADD":data.add_key_value(command[1], command[2])
+            elif command[0] == "PRINT": data.print_key(command[1])
+            elif command[0] == "DELETE": data.delete_key(command[1])
+            elif command[0] == "UPDATE": data.update_key_value(command[1], command[2])
+            else: print("?")
 
-    s = """ADD RWJSN JFTF
-    ADD ZDH GOON
-    ADD FCDS TCAY
-    ADD HMGVI BWK
-    ADD JTDU TLWWN
-    ADD IXRJ ERF
-    ADD IAOD GRDO
-    PRINT IXRJ
-    PRINT JTDU
-    PRINT IXRJ
-    UPDATE ZDH IOX
-    PRINT ZDH
-    ADD GVWU RTA
-    DELETE ZDH
-    ADD FCDS IVFJV"""
-    lil = s.split("\n")
-    lil = [x.split() for x in lil if x != ""]
-    print(lil)
-
-    data = Dictionary([], [])
-    for command in lil:
-        if command[0] == "ADD": data.add_key_value(command[1], command[2])
-        elif command[0] == "PRINT": data.print_key(command[1])
-        elif command[0] == "DELETE": data.delete_key(command[1])
-        elif command[0] == "UPDATE": data.update_key_value(command[1], command[2])
-        else: print("?")
+    with open("output13.txt", "w") as f:
+        f.write(str(data.answer))
 
 
 if __name__ == '__main__': task13()

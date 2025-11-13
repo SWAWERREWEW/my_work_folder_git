@@ -10,16 +10,11 @@ def time_of_function(func):
     def wrapper():
         start_time = time.time()
         result = func()
-        execution_time = round(time.time() - start_time, 3)
-        print(f' {execution_time}')
+        execution_time = round(time.time() - start_time, 6)
+        print(f'{execution_time}')
         return result
     return wrapper
 
-
-def custom_summ(l):
-    summ = 0
-    for el in l: summ += el
-    return summ
 
 @time_of_function
 def task7():
@@ -58,55 +53,26 @@ def task7():
 49
 38
     """
-    answer = ''
-    n, m = 10, 8
-    massif = [1, 7, 15, 8, 9, 15, 15, 19, 5, 19]
-    massif = """1
-7
-15
-8
-9
-15
-15
-19
-5
-19""".split('\n')
-    massif = list(map(int, massif))
-    requests = [
-        [1, 1, 8],
-        [1, 6, 8],
-        [1, 0, 6],
-        [2, 6, 6],
-        [2, 1, 6],
-        [2, 0, 9],
-        [1, 4, 7],
-        [1, 3, 6]
-    ]
-    requests = """1 1 8
-1 6 8
-1 0 6
-2 6 6
-2 1 6
-2 0 9
-1 4 7
-1 3 6""".split('\n')
-    requests = [list(map(int, x.split())) for x in requests]
-    print(requests)
+    n, m = map(int, input().split())
+    v = list(map(int, input().split()))
 
+    prefix_sums = [0] * (n + 1)
+    for i in range(1, n + 1):
+        prefix_sums[i] = prefix_sums[i - 1] + v[i - 1]
 
-    for v in requests:
-        if v[0] == 1:
-            l = v[1]
-            r = v[2]
-            massif_l_r = massif[l:r+1]
-            massif_l_r_sum = custom_summ(massif_l_r)
-            answer += str(massif_l_r_sum) + '\n'
-        elif v[0] == 2:
-            num = v[1]
-            new_value = v[2]
-            massif[num] = new_value
+    for _ in range(m):
+        query = list(map(int, input().split()))
 
-    print(answer)
+        if query[0] == 1:
+            l, r = query[1], query[2]
+            print(prefix_sums[r + 1] - prefix_sums[l])
+        elif query[0] == 2:
+            index, new_value = query[1], query[2]
+            diff = new_value - v[index]
+            v[index] = new_value
+
+            for i in range(index + 1, n + 1):
+                prefix_sums[i] += diff
 
 
 if __name__ == '__main__': task7()
