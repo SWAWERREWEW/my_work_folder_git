@@ -3,6 +3,17 @@
 Дисциплина: Алгоритмы и анализ сложности
 Работа: Контрольная или домашняя работа 2
 Варианты: 3, 6, 7, 11, 13, 18, 21, 22, 26, 28"""
+import time
+
+
+def time_of_function(func):
+    def wrapper():
+        start_time = time.time()
+        result = func()
+        execution_time = round(time.time() - start_time, 3)
+        print(f'Время выполнения: {execution_time} сек.')
+        return result
+    return wrapper
 
 
 def custom_summ(l):
@@ -26,15 +37,13 @@ def can_split_pages(pages, max_page_in_tom, k):
         if summ + page > max_page_in_tom:
             tomes_count += 1
             summ = page
-        else:
-            summ += page
+        else: summ += page
 
-        if tomes_count > k:
-            return False
+        if tomes_count > k: return False
 
     return True
 
-
+@time_of_function
 def task6():
     """Задача 6. Роман в томахОграничение по времени: 1 секунда Ограничение по памяти: 16 мегабайтВ романе N глав.
 В i-той главе ai страниц. Требуется издать роман в K томах так, чтобы объем самого «толстого» томабыл минимален. В
@@ -67,7 +76,7 @@ OUTPUT.TXT
     # print(answer)
 
 
-    with open('INPUT6.TXT', 'r') as f:
+    with open('_other/input6.txt', 'r') as f:
         n = int(f.readline().strip())
         a = list(map(int, f.readline().split()))
         k = int(f.readline().strip())
@@ -77,12 +86,10 @@ OUTPUT.TXT
 
     while low < high:
         mid = (low + high) // 2
-        if can_split_pages(a, mid, k):
-            high = mid
-        else:
-            low = mid + 1
+        if can_split_pages(a, mid, k): high = mid
+        else: low = mid + 1
 
-    with open('OUTPUT6.TXT', 'w') as f:
+    with open('_other/output6.txt', 'w') as f:
         f.write(str(low))
 
 

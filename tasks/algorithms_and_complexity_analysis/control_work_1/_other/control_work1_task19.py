@@ -32,7 +32,7 @@ input.txt
 3 0 3000 2500 7000 2700 10000
 2 0 3000 2700 10000
 
-output.txt
+output6.txt
 Wrong Answer
 Accepted"""
 
@@ -93,8 +93,8 @@ Accepted"""
             else:
                 results.append("Wrong Answer")
 
-    # Запись результатов в output.txt
-    with open("output.txt", "w") as file_out:
+    # Запись результатов в output6.txt
+    with open("output6.txt", "w") as file_out:
         file_out.write("\n".join(results))
 
 

@@ -7,18 +7,15 @@
 import time
 
 
-# Декоратор объявляется до декорируемой функции.
 def time_of_function(func):
-    # В декораторе есть вложенная функция.
     def wrapper():
         start_time = time.time()
         result = func()
         execution_time = round(time.time() - start_time, 3)
         print(f'Время выполнения: {execution_time} сек.')
         return result
-    # Декоратор возвращает вызываемый объект (callable object),
-    # в нашем случае - функцию.
     return wrapper
+
 
 def quick_sort(arr):
     if len(arr) <= 1:
